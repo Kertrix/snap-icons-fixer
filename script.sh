@@ -2,6 +2,13 @@
 
 ICON_THEME_NAME=$(gsettings get org.gnome.desktop.interface icon-theme | sed "s/'//g")
 
+help () {
+    echo "Syntax: $0 [-i|-b|-h]"
+    echo "-i, --install     Fix the icons for snap apps"
+    echo "-b, --backup      Restore the backup of the original .desktop files"
+    echo "-h, --help        Show this message"
+}
+
 change_icons () {
     for path in "/home/$USER/.local/share/icons/$ICON_THEME_NAME" "/home/$USER/.icons/$ICON_THEME_NAME" "/usr/share/icons/$ICON_THEME_NAME"; do
         # check if icon theme is installed
@@ -35,3 +42,13 @@ delete_backup () {
     done
 }
 
+while [ -n "$1" ]; do
+    case "$1" in
+        -h|--help) help ;;
+        -i|--install) change_icons ;;
+        -b|--backup) restore_backup ;;
+        *) echo "Option $1 not recognized"
+        help ;;
+    esac
+    shift
+done
