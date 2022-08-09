@@ -9,7 +9,20 @@ help () {
     echo "-h, --help        Show this message"
 }
 
+show_title () {
+    echo " 
+     ____                      _                        __ _               
+    / ___| _ __   __ _ _ __   (_) ___ ___  _ __  ___   / _(_)_  _____ _ __ 
+    \___ \|  _ \ / _  |  _ \  | |/ __/ _ \|  _ \/ __| | |_| \ \/ / _ \  __|
+     ___) | | | | (_| | |_) | | | (_| (_) | | | \__ \ |  _| |>  <  __/ |   
+    |____/|_| |_|\__,_| .__/  |_|\___\___/|_| |_|___/ |_| |_/_/\_\___|_|   
+                      |_| 
+    "
+
+}
+
 change_icons () {
+    show_title
     for path in "/home/$USER/.local/share/icons/$ICON_THEME_NAME" "/home/$USER/.icons/$ICON_THEME_NAME" "/usr/share/icons/$ICON_THEME_NAME"; do
         # check if icon theme is installed
         if [ -d $path ]; then
@@ -23,6 +36,7 @@ change_icons () {
                     if [ $? -eq 0 ]; then
                         # replace line with icon by app name
                         sudo sed -i "/Icon/c\Icon=$i" /var/lib/snapd/desktop/applications/$i"_"$i.desktop
+                        echo "Successfully changed the icon for app $i"
                     fi
                 fi
             done
