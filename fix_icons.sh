@@ -30,17 +30,22 @@ change_icons () {
             for i in $(ls /var/lib/snapd/desktop/applications/*.desktop | cut -d '_' -f 2 | cut -d '.' -f 1); do
                 # check if app icon exists in icon theme
                 if [ -s "$path/apps/scalable/$i.svg" ]; then
-                    # make a backup file
-                    sudo cp "/var/lib/snapd/desktop/applications/$i"_"$i.desktop" "/var/lib/snapd/desktop/applications/$i"_"$i.desktop.bck"
+                # if backup does not exist
+                    if [ ! -s "/home/$USER/.local/share/applications/$i"_"$i.desktop.bck" ] then;
+                        # make a backup file
+                        cp "/var/lib/snapd/desktop/applications/$i"_"$i.desktop" "/home/$USER/.local/share/applications/$i"_"$i.desktop.bck"
+                    fi
                     # check if backup was successfully created
                     if [ $? -eq 0 ]; then
+                        # copy the desktop file to the user's home directory
+                        cp "/var/lib/snapd/desktop/applications/$i"_"$i.desktop" "/home/$USER/.local/share/applications/$i"_"$i.desktop"
                         # replace line with icon by app name
-                        sudo sed -i "/Icon/c\Icon=$i" /var/lib/snapd/desktop/applications/$i"_"$i.desktop
+                        sed -i "/Icon/c\Icon=$i" "/home/$USER/.local/share/applications/$i"_"$i.desktop"
                         echo "Successfully changed the icon for app $i"
                     fi
                 fi
             done
-        fi
+        fi  
     done
 }
 
