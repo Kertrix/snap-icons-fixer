@@ -31,7 +31,7 @@ change_icons () {
                 # check if app icon exists in icon theme
                 if [ -s "$path/apps/scalable/$i.svg" ]; then
                 # if backup does not exist
-                    if [ ! -s "/home/$USER/.local/share/applications/$i"_"$i.desktop.bck" ] then;
+                    if [ ! -s "/home/$USER/.local/share/applications/$i"_"$i.desktop.bck" ]; then
                         # make a backup file
                         cp "/var/lib/snapd/desktop/applications/$i"_"$i.desktop" "/home/$USER/.local/share/applications/$i"_"$i.desktop.bck"
                     fi
@@ -60,6 +60,10 @@ delete_backup () {
         sudo rm $backup_file
     done
 }
+
+if [ -z "$1" ]; then
+    help
+fi
 
 while [ -n "$1" ]; do
     case "$1" in
