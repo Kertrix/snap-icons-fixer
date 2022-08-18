@@ -5,9 +5,10 @@ LOCAL_PATH="/home/$USER/.local/share/applications/"
 SNAP_PATH="/var/lib/snapd/desktop/applications/"
 
 help () {
-    echo "Syntax: $0 [-i|-b|-h]"
+    echo "Syntax: $0 [-i|-b|-h|-e]"
     echo "-i, --install     Fix the icons for snap apps"
     echo "-b, --backup      Restore the backup of the original .desktop files"
+    echo "-e, --eject       Delete all modified .desktop files and revert changes"
     echo "-h, --help        Show this message"
 }
 
@@ -53,13 +54,20 @@ change_icons () {
 
 restore_backup () {
     for backup_file in $(ls $LOCAL_PATH/*.desktop.bck); do
-        sudo cp $backup_file "${backup_file%.*}"
+        cp $backup_file "${backup_file%.*}"
     done
 }
 
 delete_backup () {
     for backup_file in $(ls $LOCAL_PATH/*.desktop.bck); do
-        sudo rm $backup_file
+        rm $backup_file
+    done
+}
+
+eject () {
+    delete_backup
+    for file in $(ls $LOCAL_PATH/*.desktop); do
+        rm $file
     done
 }
 
@@ -72,6 +80,7 @@ while [ -n "$1" ]; do
         -h|--help) help ;;
         -i|--install) change_icons ;;
         -b|--backup) restore_backup ;;
+        -e|--eject) eject ;;
         *) echo "Option $1 not recognized"
         help ;;
     esac
