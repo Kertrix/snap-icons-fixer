@@ -30,7 +30,7 @@ change_icons () {
         # check if icon theme is installed
         if [ -d $theme_path ]; then
             # list through all snap desktop applications
-            for i in $(ls $SNAP_PATH/*.desktop | cut -d '_' -f 2 | cut -d '.' -f 1); do
+            for i in $(ls $1/*.desktop | cut -d '_' -f 2 | cut -d '.' -f 1); do
                 # check if app icon exists in icon theme
                 if [ -s "$theme_path/apps/scalable/$i.svg" ]; then
                 # if backup does not exist
@@ -41,7 +41,7 @@ change_icons () {
                     # check if backup was successfully created
                     if [ $? -eq 0 ]; then
                         # copy the desktop file to the user's home directory
-                        cp "$SNAP_PATH/$i"_"$i.desktop" "$LOCAL_PATH/$i"_"$i.desktop"
+                        cp "$1/$i"_"$i.desktop" "$LOCAL_PATH/$i"_"$i.desktop"
                         # replace line with icon by app name
                         sed -i "/Icon/c\Icon=$i" "$LOCAL_PATH/$i"_"$i.desktop"
                         echo "Successfully changed the icon for app $i"
@@ -78,7 +78,21 @@ fi
 while [ -n "$1" ]; do
     case "$1" in
         -h|--help) help ;;
-        -i|--install) change_icons ;;
+        -f|--fix)             
+            if [[ $2 == "snap" ]]; then
+                change_icons "$SNAP_PATH"
+            else
+                if [[ -n "$2" ]]; then
+                    if [ -d $2 ]; then
+                        change_icons "$2"
+                    else 
+                        echo "The path must exist!"
+                    fi
+                else 
+                    echo "The input must not be empty!"
+                fi
+            fi
+            shift ;;
         -b|--backup) restore_backup ;;
         -e|--eject) eject ;;
         *) echo "Option $1 not recognized"
