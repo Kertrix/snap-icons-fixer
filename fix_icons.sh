@@ -5,11 +5,11 @@ LOCAL_PATH="/home/$USER/.local/share/applications/"
 SNAP_PATH="/var/lib/snapd/desktop/applications/"
 
 help () {
-    echo "Syntax: $0 [-i|-b|-h|-e]"
-    echo "-i, --install     Fix the icons for snap apps"
-    echo "-b, --backup      Restore the backup of the original .desktop files"
-    echo "-e, --eject       Delete all modified .desktop files and revert changes"
-    echo "-h, --help        Show this message"
+    echo "Syntax: $0 [-f|-b|-h|-e]"
+    echo "-f, --fix         [snap|path]       Fix the icons for snap apps"
+    echo "-b, --backup                        Restore the backup of the original .desktop files"
+    echo "-e, --eject                         Delete all modified .desktop files and revert changes"
+    echo "-h, --help                          Show this message"
 }
 
 show_title () {
