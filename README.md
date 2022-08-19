@@ -14,5 +14,5 @@ Or you can use this oneliner:
 `curl -s https://raw.githubusercontent.com/Kertrix/snap-icons-fixer/master/fix_icons.sh -o fix_icons.sh; chmod +x fix_icons.sh; ./fix_icons.sh -i`
 
 # How it works
-I noticed that the path to the icons of snaps were directly hardwritten in the .desktop files. Therefore, they don't use your icon theme. So I searched and I found that we could directly use the name of the icon instead of the path. 
+I noticed that the path to the icons of snaps were directly hardwritten in the .desktop files. Therefore, they don't use your icon theme. So I searched and I found that we could directly use the name of the icon instead of the path. It just loops through all your snaps apps and change the icon.
 
