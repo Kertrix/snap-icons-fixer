@@ -36,11 +36,12 @@ change_icons () {
                 # if backup does not exist
                     if [ ! -s "$LOCAL_PATH/$i"_"$i.desktop.bck" ]; then
                         # make a backup file
-                        cp "$LOCAL_PATH/$i"_"$i.desktop" "$LOCAL_PATH/$i"_"$i.desktop.bck"
+                        cp "$SNAP_PATH/$i"_"$i.desktop" "$LOCAL_PATH/$i"_"$i.desktop.bck"
                     fi
                     # check if backup was successfully created
                     if [ $? -eq 0 ]; then
                         # copy the desktop file to the user's home directory
+                        echo "$1"
                         cp "$1/$i"_"$i.desktop" "$LOCAL_PATH/$i"_"$i.desktop"
                         # replace line with icon by app name
                         sed -i "/Icon/c\Icon=$i" "$LOCAL_PATH/$i"_"$i.desktop"
